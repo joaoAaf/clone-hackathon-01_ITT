@@ -15,7 +15,7 @@ FROM gcr.io/distroless/static-debian12
 #copia o binario da aplicação do estagio de build
 COPY --from=build /app/api /usr/local/bin/api
 #informa ao docker que o container ouve a porta especificada
-EXPOSE 9080
+EXPOSE $EXPOSE_PORT
 #define o usuário e o grupo para container para nonroot
 USER nonroot:nonroot
 #executa a aplicação
