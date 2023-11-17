@@ -1,0 +1,50 @@
+networks:
+  api-net:
+    name: api-net
+    driver: bridge
+
+volumes:
+  db:
+    name: db
+
+services:
+  db:
+    container_name: db
+    image: mongo
+    restart: always
+    networks:
+      - api-net
+    volumes:
+      - db:/data/db
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M       
+  api:
+    container_name: api
+    image: $IMAGE_NAME
+    restart: always
+    networks:
+      - api-net
+    depends_on:
+      - db
+    environment:
+      MONGO_DB_HOST: db
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+  client:
+    container_name: client
+    build: 
+      dockerfile: client.dockerfile
+    networks:
+      - api-net
+    tty: true
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
