@@ -30,7 +30,7 @@ services:
     depends_on:
       - db
     environment:
-      $ENV_DB_HOST: db
+      MONGO_DB_HOST: db
     deploy:
       resources:
         limits:
